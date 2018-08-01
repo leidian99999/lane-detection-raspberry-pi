@@ -50,9 +50,14 @@ for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=
     if lines.detected_first & lines.detected:
         lines.calculate_curvature_offset()
         lcd.clear()
-        direction_mark = "     | -->|"
-        if lines.offset < 0:
-            direction_mark = "     |<-- |"
+        direction_mark = ""
+        if abs(lines.offset) < 0.1:
+            direction_mark = "     |    |"
+        else:
+            if lines.offset < 0:
+                direction_mark = "     |<-- |"
+            else:
+                direction_mark = "     | -->|"
         offset_text = direction_mark + "\n     " + str(round(abs(lines.offset),2)) + "m"
         lcd.message(offset_text)
     else:
